@@ -10,5 +10,15 @@ module LegelistenSms
         subject.run_callbacks(:create)
       end
     end
+
+    describe "after_initialize" do
+      it "sets status to NEW" do
+        subject.status.should == OutgoingMessage::NEW
+      end
+
+      it "sets delivery_attempts to 0" do
+        subject.delivery_attempts.should == 0
+      end
+    end
   end
 end
