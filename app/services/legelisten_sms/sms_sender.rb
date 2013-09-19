@@ -24,7 +24,7 @@ class SmsSender
                              servicecode: message.service_code}
 
       return (http_response_ok?(result) and gateway_response_ok?(result))
-    rescue
+    rescue Exception => e
       return false
     end
   end

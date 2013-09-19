@@ -2,13 +2,13 @@ require 'spec_helper'
 
 module LegelistenSms
   describe SmsSender do
-    describe "sending an SMS" do
+    describe "#send" do
       it "returns true when sending SMS is successful" do
         message = OutgoingMessage.new
         message.recipient = "4791788471"
         message.text = "Test"
 
-        VCR.use_cassette('pswincom/valid_sms') do
+        VCR.use_cassette('pswincom/valid_sms', :match_requests_on => [:method]) do
           result = SmsSender.new.send(message)
 
           result.should == true
@@ -20,9 +20,10 @@ module LegelistenSms
         message.recipient = "4791788471"
         message.text = "Test"
 
-        VCR.use_cassette('pswincom/non-200-response') do
-          result = SmsSender.new.send(message)
-          result.should == false
+        VCR.use_cassette('pswincom/non-200-response', :match_requests_on => [:method]) do
+          sender = SmsSender.new
+
+          sender.send(message).should == false
         end
       end
 
@@ -31,7 +32,7 @@ module LegelistenSms
         message.recipient = "4791788471"
         message.text = "Test"
 
-        VCR.use_cassette('pswincom/non-xml-response') do
+        VCR.use_cassette('pswincom/non-xml-response', :match_requests_on => [:method]) do
           result = SmsSender.new.send(message)
           result.should == false
         end
