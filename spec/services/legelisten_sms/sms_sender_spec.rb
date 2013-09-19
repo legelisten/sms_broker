@@ -43,8 +43,6 @@ module LegelistenSms
         message = OutgoingMessage.new
         message.recipient = "4791788471"
         message.sender = "Legelisten"
-        #message.tariff = 1
-        #message.service_code = "01234"
         message.text = "Test"
 
         PSWinCom::API.any_instance.should_receive(:send_sms) { raise }
