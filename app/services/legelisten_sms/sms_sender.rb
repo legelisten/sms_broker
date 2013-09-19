@@ -1,22 +1,47 @@
 class SmsSender
 
-  def initialize(message)
-    @message = message
+  def initialize
+    username = ENV['SMS_GW_USER'] || 'dummy'
+    password = ENV['SMS_GW_PASSWORD'] || 'dummy'
+    host     = ENV['SMS_GW_HOST']
 
-    username = 'dummy' || ENV['SMS_GW_USER']
-    password = 'dummy' || ENV['SMS_GW_PASSWORD']
-
+    PSWinCom::API.api_host = host if host
     @api = PSWinCom::API.new username, password
+
   end
 
-  def send
-    result = api.send_sms message.receiver_number,
-                             message.text,
-                             sender: ENV['SMS_GATEWAY_SENDER'],
-                             tariff: message.tariff,
-                             servicecode: message.service_code
+  def send(message)
+    options = Hash.new
+    options[:sender] = message.sender unless message.sender.nil?
+    options[:tariff] = message.tariff unless message.tariff.nil?
+    options[:servicecode] = message.service_code unless message.service_code.nil?
 
-    return result.between? 200, 206
+    begin
+      result = @api.send_sms message.recipient,
+                             message.text,
+                             {sender: message.sender,
+                             tariff: message.tariff,
+                             servicecode: message.service_code}
+
+      return (http_response_ok?(result) and gateway_response_ok?(result))
+    rescue
+      return false
+    end
+  end
+
+private
+
+  def http_response_ok?(result)
+    result.is_a? Net::HTTPOK
+  end
+
+  def gateway_response_ok?(result)
+    doc = REXML::Document.new(result.body)
+
+    login_ok = doc.root.elements["//LOGON"].text == "OK"
+    message_ok =  doc.root.elements["//MSGLST/MSG/STATUS"].text == "OK"
+
+    return (login_ok and message_ok)
   end
 
 end

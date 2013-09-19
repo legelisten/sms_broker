@@ -1,6 +1,17 @@
 module LegelistenSms
   class OutgoingMessage < ActiveRecord::Base
-    after_create :handle_message
+    validates :receiver_number, :sender_number, :text, presence: true
+
+    after_initialize :init
+    after_create     :handle_message
+
+    NEW     = 'NEW'
+    FAILED  = 'FAILED'
+    SENT    = 'SENT'
+
+    def init
+      self.delivery_attempts = 0
+    end
 
   private
 

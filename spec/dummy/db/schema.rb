@@ -14,16 +14,24 @@
 ActiveRecord::Schema.define(:version => 20130913123929) do
 
   create_table "legelisten_sms_incoming_messages", :force => true do |t|
-    t.string   "receiver_number"
-    t.string   "sender_number"
+    t.string   "recipient"
+    t.string   "sender"
     t.string   "text"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "legelisten_sms_outgoing_messages", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "incoming_message_id"
+    t.string   "recipient"
+    t.string   "sender"
+    t.string   "text"
+    t.integer  "tariff"
+    t.string   "service_code"
+    t.integer  "delivery_attempts"
+    t.string   "status"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
 end

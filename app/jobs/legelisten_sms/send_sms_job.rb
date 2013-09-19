@@ -3,11 +3,25 @@ module LegelistenSms
 
     def initialize(message)
       @message = message
-      @sms_sender = SmsSender.new(@message)
     end
 
     def perform
-      @sms_sender.send || raise
+      SmsSender.new.send(@message) || raise
+    end
+
+    def success(job)
+      @message.status = OutgoingMessage::SENT
+      @message.save!
+    end
+
+    def failure(job)
+      @message.status = OutgoingMessage::FAILED
+      @message.save!
+    end
+
+    def error(job, exception)
+      @message.delivery_attempts += 1
+      @message.save!
     end
 
   end

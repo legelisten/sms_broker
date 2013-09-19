@@ -4,8 +4,8 @@ module LegelistenSms
   class IncomingMessagesController < ApplicationController
     def receive
       message = IncomingMessage.new
-      message.sender_number = params[:SND]
-      message.receiver_number = params[:RCV]
+      message.sender = params[:SND]
+      message.recipient = params[:RCV]
       message.text = params[:TXT]
 
       if message.save
