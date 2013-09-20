@@ -19,9 +19,11 @@ guard :rspec do
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
+  watch(%r{^spec/factories/(.+).rb$})                { "spec" }
 end
 
 guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
+  watch(%r{app/.+\.(rb|haml)})
   watch('config/application.rb')
   watch('config/environment.rb')
   watch('config/environments/test.rb')

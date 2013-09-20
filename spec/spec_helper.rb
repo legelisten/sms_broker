@@ -9,25 +9,19 @@ Spork.prefork do
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../dummy/config/environment.rb",  __FILE__)
   require 'rspec/rails'
-  require 'rspec/autorun'
+  #require 'rspec/autorun'
+  require 'factory_girl_rails'
 
+  Rails.backtrace_cleaner.remove_silencers!
+  Delayed::Worker.delay_jobs = false
 
   Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
+  # To avoid that FactoryGirl tries to locate factories in the dummy application
+  FactoryGirl.definition_file_paths << File.join(File.dirname(__FILE__), 'factories')
+  FactoryGirl.find_definitions
+
   RSpec.configure do |config|
-    config.before do
-      # Disable all observers, except for integration tests
-      ActiveRecord::Base.observers.disable :all unless example.metadata[:integration]
-
-      # Find out which observers this spec needs
-      observers = example.metadata[:observer] || example.metadata[:observers]
-
-      # Turn on observers as needed
-      if observers
-        ActiveRecord::Base.observers.enable *observers
-      end
-    end
-
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -54,13 +48,15 @@ Spork.prefork do
     # the seed, which is printed after each run.
     #     --seed 1234
     config.order = "random"
+
+    config.include FactoryGirl::Syntax::Methods
   end
 
 end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
+  FactoryGirl.reload
 end
 
 # --- Instructions ---

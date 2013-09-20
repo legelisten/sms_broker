@@ -6,7 +6,7 @@ module LegelistenSms
     end
 
     def perform
-      SmsSender.new.send(@message) || raise
+      SmsSender.new.send(@message) || raise('Could not send SMS')
     end
 
     def success(job)

@@ -13,6 +13,8 @@ gem 'delayed_job_active_record'
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
 
+  gem 'sqlite3'
+
   gem 'guard',              require: false
   gem 'guard-spork',        require: false
   gem 'guard-rspec',        require: false
@@ -20,6 +22,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'factory_girl_rails'
+
   gem 'vcr', '~> 2.0'                         # Record HTTP interactions
   gem 'webmock'                               # Used by vcr
 end

@@ -2,7 +2,7 @@ module LegelistenSms
   class OutgoingMessage < ActiveRecord::Base
     has_one :incoming_message
 
-    validates :receiver_number, :sender_number, :text, presence: true
+    validates :recipient, :sender, :text, presence: true
 
     after_initialize :init
     after_create     :handle_message
