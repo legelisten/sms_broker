@@ -13,11 +13,11 @@ Gem::Specification.new do |s|
   s.summary     = "Sending and receiving SMS"
   s.description = ""
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.md"]
   #s.test_files = Dir["test/**/*"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 3.2.14"
+  s.add_dependency "rails", "~> 3.2.0"
   s.add_dependency "delayed_job", "~> 3.0.3"
   s.add_dependency "pswincom"
 
