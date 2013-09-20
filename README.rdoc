@@ -1,3 +1,7 @@
 = LegelistenSms
 
-This project rocks and uses MIT-LICENSE.
+These environment variables need to be set to configure the communication with PSWinCom.
+
+SMS_GW_USER
+SMS_GW_PASSWORD
+SMS_GW_SENDER - Name displayed as the sender of the SMS
