@@ -1,6 +1,6 @@
 require "spec_helper"
 
-module LegelistenSms
+module SmsBroker
   describe "sending SMS" do
     it "stores and sends the outgoing SMS message" do
       VCR.use_cassette('pswincom/valid_sms', :match_requests_on => []) do

@@ -1,4 +1,4 @@
-module LegelistenSms
+module SmsBroker
   class OutgoingMessageHandler
 
     def initialize(message)

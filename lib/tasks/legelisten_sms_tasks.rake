@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :legelisten_sms do
+# task :sms_broker do
 #   # Task goes here
 # end

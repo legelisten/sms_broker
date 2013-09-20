@@ -1,4 +1,4 @@
-module LegelistenSms
+module SmsBroker
   class IncomingMessage < ActiveRecord::Base
     validates :recipient, :sender, presence: true
 

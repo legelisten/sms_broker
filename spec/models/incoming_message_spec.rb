@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module LegelistenSms
+module SmsBroker
   describe IncomingMessage do
     describe "after_create" do
       it 'should run the proper callbacks' do

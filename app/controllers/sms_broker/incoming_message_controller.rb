@@ -1,6 +1,6 @@
-require_dependency "legelisten_sms/application_controller"
+require_dependency "sms_broker/application_controller"
 
-module LegelistenSms
+module SmsBroker
   class IncomingMessagesController < ApplicationController
     def receive
       message = IncomingMessage.new

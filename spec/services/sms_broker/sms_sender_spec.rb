@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module LegelistenSms
+module SmsBroker
   describe SmsSender do
     describe "#send" do
       it "returns true when sending SMS is successful" do

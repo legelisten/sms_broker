@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :outgoing_message, class: LegelistenSms::OutgoingMessage do
+  factory :outgoing_message, class: SmsBroker::OutgoingMessage do
     recipient       "2077"
     sender          "12345678"
     text            "LL SomeRandomText"
@@ -10,11 +10,11 @@ FactoryGirl.define do
     end
 
     # trait :sent do
-    #   status        LegelistenSms::OutgoingMessage::SENT
+    #   status        SmsBroker::OutgoingMessage::SENT
     # end
 
     # trait :failed do
-    #   status        LegelistenSms::OutgoingMessage::FAILED
+    #   status        SmsBroker::OutgoingMessage::FAILED
     # end
   end
 end

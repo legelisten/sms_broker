@@ -1,12 +1,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "legelisten_sms/version"
+require "sms_broker/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "legelisten_sms"
-  s.version     = LegelistenSms::VERSION
+  s.name        = "sms_broker"
+  s.version     = SmsBroker::VERSION
   s.authors     = ["Roger Kind Kristiansen"]
   s.email       = ["roger@legelisten.no"]
   s.homepage    = "http://www.legelisten.no"

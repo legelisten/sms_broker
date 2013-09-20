@@ -1,6 +1,6 @@
-module LegelistenSms
+module SmsBroker
   class Engine < ::Rails::Engine
-    isolate_namespace LegelistenSms
+    isolate_namespace SmsBroker
 
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false

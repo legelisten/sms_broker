@@ -1,6 +1,6 @@
-class CreateLegelistenSmsIncomingSms < ActiveRecord::Migration
+class CreateSmsBrokerIncomingMessages < ActiveRecord::Migration
   def change
-    create_table :legelisten_sms_incoming_messages do |t|
+    create_table :sms_broker_incoming_messages do |t|
       t.string :recipient
       t.string :sender
       t.string :text

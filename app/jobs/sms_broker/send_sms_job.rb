@@ -1,4 +1,4 @@
-module LegelistenSms
+module SmsBroker
   class SendSmsJob < Struct.new(:message)
 
     def initialize(message)

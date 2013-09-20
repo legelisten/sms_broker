@@ -1,4 +1,4 @@
-module LegelistenSms
+module SmsBroker
   class OutgoingMessage < ActiveRecord::Base
     has_one :incoming_message
 

@@ -1,4 +1,4 @@
-= LegelistenSms
+= SmsBroker
 
 These environment variables need to be set to configure the communication with PSWinCom.
 

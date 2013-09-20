@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module LegelistenSms
+module SmsBroker
   describe SendSmsJob do
 
     describe "#perform" do

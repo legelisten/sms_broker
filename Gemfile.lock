@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    legelisten_sms (0.0.1)
+    sms_broker (0.0.1)
       delayed_job (~> 3.0.3)
       pswincom
       rails (~> 3.2.14)
@@ -176,9 +176,9 @@ DEPENDENCIES
   guard-rspec
   guard-spork
   jquery-rails
-  legelisten_sms!
   pswincom
   rspec-rails (~> 2.0)
+  sms_broker!
   sqlite3
   vcr (~> 2.0)
   webmock

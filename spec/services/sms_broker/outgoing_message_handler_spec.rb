@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module LegelistenSms
+module SmsBroker
   describe OutgoingMessageHandler do
     describe "#execute" do
       it "adds an SendSmsJob to the work que" do

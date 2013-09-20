@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount LegelistenSms::Engine => "/legelisten_sms"
+  mount SmsBroker::Engine => "/sms_broker"
 end
