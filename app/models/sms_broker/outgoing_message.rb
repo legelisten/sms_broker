@@ -1,6 +1,6 @@
 module SmsBroker
   class OutgoingMessage < ActiveRecord::Base
-    has_one :incoming_message
+    belongs_to :incoming_message
 
     validates :recipient, :sender, :text, presence: true
 
@@ -12,14 +12,26 @@ module SmsBroker
     SENT    = 'SENT'
 
     def init
+      if SmsBroker.config.respond_to? :default_sender
+        self.sender = SmsBroker.config.default_sender
+      end
+
       self.status = OutgoingMessage::NEW
       self.delivery_attempts = 0
+    end
+
+    def self.build_from_incoming(incoming_message)
+      message = OutgoingMessage.new
+      message.incoming_message = incoming_message
+      message.recipient = incoming_message.sender
+
+      message
     end
 
   private
 
     def handle_message
-      OutgoingMessageHandler.new(self).execute
+      OutgoingMessageHook.execute(self)
     end
   end
 end

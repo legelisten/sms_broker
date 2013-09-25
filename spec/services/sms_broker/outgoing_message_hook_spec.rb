@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 module SmsBroker
-  describe OutgoingMessageHandler do
+  describe OutgoingMessageHook do
     describe "#execute" do
       it "adds an SendSmsJob to the work que" do
-        handler = OutgoingMessageHandler.new(nil)
         Delayed::Job.should_receive(:enqueue).with(an_instance_of(SendSmsJob), anything())
+        message = build :outgoing_message
 
-        handler.execute
+        OutgoingMessageHook.execute(message)
       end
 
     end

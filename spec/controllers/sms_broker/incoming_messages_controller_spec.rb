@@ -24,7 +24,6 @@ module SmsBroker
 
         IncomingMessage.count.should == 1
       end
-
     end
   end
 end

@@ -6,7 +6,7 @@ module SmsBroker
   private
 
     def handle_message
-      IncomingMessageHandler.new(self).execute
+      IncomingMessageHook.execute(self)
     end
   end
 end

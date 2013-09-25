@@ -11,4 +11,12 @@ module SmsBroker
     end
 
   end
+
+  def self.config(&block)
+    if block
+      yield Engine.config
+    else
+      Engine.config
+    end
+  end
 end
