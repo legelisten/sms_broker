@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.0"
   s.add_dependency "delayed_job", "~> 3.0.3"
-  s.add_dependency "pswincom"
+  s.add_dependency "pswincom", "~>0.1.8"
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails'
