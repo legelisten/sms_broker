@@ -1,27 +1,28 @@
 module SmsBroker
   class SendSmsJob < Struct.new(:message)
 
-    def initialize(message)
-      @message = message
-    end
-
     def perform
-      SmsSender.new.send(@message) || raise('Could not send SMS')
+      begin
+        return SmsSender.new.send(message)
+      rescue Exception => e
+        raise("Unable to deliver SMS to gateway: #{e.message}")
+      end
     end
 
     def success(job)
-      @message.status = OutgoingMessage::SENT
-      @message.save!
+      message.status = OutgoingMessage::SENT
+      message.save!
     end
 
     def failure(job)
-      @message.status = OutgoingMessage::FAILED
-      @message.save!
+      message.status = OutgoingMessage::FAILED
+      message.save!
     end
 
     def error(job, exception)
-      @message.delivery_attempts += 1
-      @message.save!
+      message.reload
+      message.increment(:delivery_attempts)
+      message.save!
     end
 
   end

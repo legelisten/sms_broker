@@ -6,9 +6,9 @@ module SmsBroker
     def initialize
       username = ENV['SMS_GW_USER'] || 'dummy'
       password = ENV['SMS_GW_PASSWORD'] || 'dummy'
-      host     = ENV['SMS_GW_HOST']
+      url      = ENV['SMS_GW_URL']
 
-      ::PSWinCom::API.api_host = host if host
+      ::PSWinCom::API.api_host = url if url
       @api = ::PSWinCom::API.new username, password
 
     end
@@ -19,17 +19,16 @@ module SmsBroker
       options[:tariff] = message.tariff unless message.tariff.nil?
       options[:servicecode] = message.service_code unless message.service_code.nil?
 
-      begin
-        result = @api.send_sms message.recipient,
-                               message.text,
-                               {sender: message.sender,
-                               tariff: message.tariff,
-                               servicecode: message.service_code}
+      result = @api.send_sms message.recipient,
+                             message.text,
+                             {sender: message.sender,
+                             tariff: message.tariff,
+                             servicecode: message.service_code}
 
-        return (http_response_ok?(result) and gateway_response_ok?(result))
-      rescue Exception => e
-        return false
-      end
+      http_response_ok?(result) || raise("HTTP response code not 200")
+      gateway_response_ok?(result) || raise("Unexpected response from gateway: #{result.body}")
+
+      return true
     end
 
   private
@@ -41,10 +40,17 @@ module SmsBroker
     def gateway_response_ok?(result)
       doc = REXML::Document.new(result.body)
 
-      login_ok = doc.root.elements["//LOGON"].text == "OK"
-      message_ok =  doc.root.elements["//MSGLST/MSG/STATUS"].text == "OK"
+      is_valid_xml = !doc.root.nil?
+      login_ok = false
+      message_ok = false
 
-      return (login_ok and message_ok)
+      if is_valid_xml
+        root = doc.root
+        login_ok = root.elements["//LOGON"] && root.elements["//LOGON"].text == "OK"
+        message_ok = root.elements["//MSGLST/MSG/STATUS"] && root.elements["//MSGLST/MSG/STATUS"].text == "OK"
+      end
+
+      return (is_valid_xml && login_ok && message_ok)
     end
 
   end

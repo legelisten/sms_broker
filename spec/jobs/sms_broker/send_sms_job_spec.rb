@@ -6,7 +6,7 @@ module SmsBroker
     describe "#perform" do
       it "raises exception if sending of SMS fails" do
         job = SendSmsJob.new(nil)
-        SmsSender.any_instance.stub(:send) { false }
+        SmsSender.any_instance.stub(:send) { raise }
 
         expect { job.perform }.to raise_error
       end
@@ -22,6 +22,7 @@ module SmsBroker
     describe "#error" do
       it "should increase message's delivery attempts counter" do
         message = OutgoingMessage.new
+        message.should_receive(:reload)
         message.should_receive(:save!)
         job = SendSmsJob.new(message)
 
