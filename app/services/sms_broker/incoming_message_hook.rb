@@ -6,7 +6,7 @@ module SmsBroker
     # This method should be overriden
     #
     def self.execute(message)
-      raises
+      raise
     end
 
   end
