@@ -1,16 +1,16 @@
 GIT
   remote: git://github.com/legelisten/pswincomgem.git
-  revision: 45e6bcd3123dcb1a7f12e6c378c97249e0d0bf09
+  revision: c6afb35c9905f8f4172b9e2cacdfe815ba96159d
   specs:
-    pswincom (0.1.7)
+    pswincom (0.1.8)
       builder (>= 2.1.2)
 
 PATH
   remote: .
   specs:
-    sms_broker (0.0.4)
+    sms_broker (0.1.2)
       delayed_job (~> 3.0.3)
-      pswincom
+      pswincom (~> 0.1.8)
       rails (~> 3.2.0)
 
 GEM
