@@ -4,12 +4,8 @@ module SmsBroker
   class SmsSender
 
     def initialize
-      username = ENV['SMS_SEND_USER'] || 'dummy'
-      password = ENV['SMS_SEND_PASSWORD'] || 'dummy'
-      url      = ENV['SMS_SEND_URL']
-
-      ::PSWinCom::API.api_host = url if url
-      @api = ::PSWinCom::API.new username, password
+      ::PSWinCom::API.api_host = SmsBroker.config.pswincom_reception_url
+      @api = ::PSWinCom::API.new SmsBroker.config.pswincom_user, SmsBroker.config.pswincom_password
 
     end
 

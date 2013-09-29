@@ -9,7 +9,6 @@ module SmsBroker
       g.assets false
       g.helper false
     end
-
   end
 
   def self.config(&block)
@@ -19,4 +18,15 @@ module SmsBroker
       Engine.config
     end
   end
+
+  config.pswincom_user = ENV['SMS_SEND_USER'] || 'dummy'
+  config.pswincom_password = ENV['SMS_SEND_PASSWORD'] || 'dummy'
+  config.pswincom_reception_url = ENV['SMS_SEND_URL']
+
+  if ENV['SMS_IP_WHITELIST']
+    config.reception_ip_whitelist = ENV['SMS_IP_WHITELIST'].split(",")
+  else
+    config.reception_ip_whitelist = Array.new
+  end
+
 end
