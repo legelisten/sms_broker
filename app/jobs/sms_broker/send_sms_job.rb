@@ -1,9 +1,13 @@
 module SmsBroker
-  class SendSmsJob < Struct.new(:message)
+  class SendSmsJob < Struct.new(:message, :test_mode)
 
     def perform
       begin
-        return SmsSender.new.send(message)
+        if test_mode
+          return true
+        else
+          return SmsSender.new.send(message)
+        end
       rescue Exception => e
         raise("Unable to deliver SMS to gateway: #{e.message}")
       end
@@ -20,7 +24,7 @@ module SmsBroker
     end
 
     def error(job, exception)
-      message.reload
+      message.reload if message.id
       message.increment(:delivery_attempts)
       message.save!
     end

@@ -22,7 +22,6 @@ module SmsBroker
     describe "#error" do
       it "should increase message's delivery attempts counter" do
         message = OutgoingMessage.new
-        message.should_receive(:reload)
         message.should_receive(:save!)
         job = SendSmsJob.new(message)
 

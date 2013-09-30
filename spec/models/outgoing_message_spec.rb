@@ -2,10 +2,15 @@ require 'spec_helper'
 
 module SmsBroker
   describe OutgoingMessage do
+
     describe "after_create" do
-      it 'should run the proper callbacks' do
-        subject = OutgoingMessage.new
-        subject.should_receive(:handle_message)
+      after(:each) { SmsBroker::OutgoingMessage.class_variable_set :@@after_create_hooks, Array.new }
+
+      it 'should trigger the registered hooks' do
+        hook = double(:hook)
+        hook.should_receive(:execute)
+
+        SmsBroker::OutgoingMessage.register_after_create_hook(hook)
 
         subject.run_callbacks(:create)
       end
