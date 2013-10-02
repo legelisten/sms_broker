@@ -5,8 +5,7 @@ module SmsBroker
     describe "POST #receive" do
 
       before(:each) do
-        SmsBroker.config.reception_ip_whitelist = ['1.2.3.4']
-        request.remote_addr = '1.2.3.4'
+        request.remote_addr = '127.0.0.1'
       end
 
       it "returns 200 when IncomingMessage saved" do

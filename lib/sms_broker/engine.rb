@@ -22,11 +22,10 @@ module SmsBroker
   config.pswincom_user = ENV['SMS_SEND_USER'] || 'dummy'
   config.pswincom_password = ENV['SMS_SEND_PASSWORD'] || 'dummy'
   config.pswincom_reception_url = ENV['SMS_SEND_URL']
+  config.reception_ip_whitelist = ['127.0.0.1']
 
   if ENV['SMS_IP_WHITELIST']
-    config.reception_ip_whitelist = ENV['SMS_IP_WHITELIST'].split(",")
-  else
-    config.reception_ip_whitelist = Array.new
+    config.reception_ip_whitelist = config.reception_ip_whitelist | ENV['SMS_IP_WHITELIST'].split(",")
   end
 
 end
