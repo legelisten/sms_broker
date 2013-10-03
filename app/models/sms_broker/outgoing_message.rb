@@ -15,11 +15,11 @@ module SmsBroker
 
     def init
       if SmsBroker.config.respond_to? :default_sender
-        self.sender = SmsBroker.config.default_sender
+        self.sender ||= SmsBroker.config.default_sender
       end
 
-      self.status = SmsBroker::OutgoingMessage::NEW
-      self.delivery_attempts = 0
+      self.status ||= SmsBroker::OutgoingMessage::NEW
+      self.delivery_attempts ||= 0
     end
 
     def self.register_after_create_hook(hook)
