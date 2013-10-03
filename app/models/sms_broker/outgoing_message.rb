@@ -7,12 +7,15 @@ module SmsBroker
     after_initialize :init
     after_create :fire_hooks
 
-    @@after_create_hooks = Array.new
-
     NEW       = 'NEW'
     RETRYING  = 'RETRYING'
     SENT      = 'SENT'
     FAILED    = 'FAILED'
+
+    scope :sent,   -> { where(status: SENT) }
+    scope :unsent, -> { where('status != ?', SENT) }
+
+    @@after_create_hooks = Array.new
 
     def init
       if SmsBroker.config.respond_to? :default_sender
