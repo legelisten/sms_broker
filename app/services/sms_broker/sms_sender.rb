@@ -21,7 +21,7 @@ module SmsBroker
                              tariff: message.tariff,
                              servicecode: message.service_code}
 
-      http_response_ok?(result) || raise("HTTP response code not 200")
+      http_response_ok?(result) || raise("HTTP response code not 200: #{result.to_s}")
       gateway_response_ok?(result) || raise("Unexpected response from gateway: #{result.body}")
 
       return true
