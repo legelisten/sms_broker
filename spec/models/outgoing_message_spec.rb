@@ -24,20 +24,7 @@ module SmsBroker
       it "sets delivery_attempts to 0" do
         subject.delivery_attempts.should == 0
       end
-    end
 
-    describe ".build_from_incoming" do
-      it "uses incoming message to set up new object" do
-        incoming_message = build :incoming_message, id: 1
-
-        outgoing_message = OutgoingMessage.build_from_incoming(incoming_message)
-
-        outgoing_message.incoming_message.should == incoming_message
-        outgoing_message.recipient.should == incoming_message.sender
-      end
-    end
-
-    describe "after_initalize" do
       it "does not set sender default value is not set" do
         OutgoingMessage.new.sender.should == nil
       end
@@ -48,6 +35,17 @@ module SmsBroker
         end
 
         OutgoingMessage.new.sender.should == "TestSender"
+      end
+    end
+
+    describe ".build_from_incoming" do
+      it "uses incoming message to set up new object" do
+        incoming_message = build :incoming_message, id: 1
+
+        outgoing_message = OutgoingMessage.build_from_incoming(incoming_message)
+
+        outgoing_message.incoming_message.should == incoming_message
+        outgoing_message.recipient.should == incoming_message.sender
       end
     end
   end
