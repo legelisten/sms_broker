@@ -9,9 +9,10 @@ module SmsBroker
 
     @@after_create_hooks = Array.new
 
-    NEW     = 'NEW'
-    FAILED  = 'FAILED'
-    SENT    = 'SENT'
+    NEW       = 'NEW'
+    RETRYING  = 'RETRYING'
+    SENT      = 'SENT'
+    FAILED    = 'FAILED'
 
     def init
       if SmsBroker.config.respond_to? :default_sender

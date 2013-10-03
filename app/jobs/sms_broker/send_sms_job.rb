@@ -2,6 +2,8 @@ module SmsBroker
   class SendSmsJob < Struct.new(:message, :test_mode)
 
     def perform
+      message.increment(:delivery_attempts)
+
       begin
         if test_mode
           return true
@@ -15,18 +17,18 @@ module SmsBroker
 
     def success(job)
       message.status = OutgoingMessage::SENT
-      message.save!
     end
 
     def failure(job)
       message.status = OutgoingMessage::FAILED
+    end
+
+    def after(job)
       message.save!
     end
 
     def error(job, exception)
-      message.reload if message.id
-      message.increment(:delivery_attempts)
-      message.save!
+      message.status = OutgoingMessage::RETRYING
     end
 
   end

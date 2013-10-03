@@ -12,29 +12,31 @@ module SmsBroker
       end
 
       it "returns true if sending of SMS succeeds" do
-        handler = SendSmsJob.new(nil)
+        message = double(:message)
+        message.stub!(:increment)
+        handler = SendSmsJob.new(message)
         SmsSender.any_instance.stub(:send) { true }
 
         handler.perform.should == true
       end
-    end
 
-    describe "#error" do
       it "should increase message's delivery attempts counter" do
         message = OutgoingMessage.new
-        message.should_receive(:save!)
-        job = SendSmsJob.new(message)
+        handler = SendSmsJob.new(message)
+        SmsSender.any_instance.stub(:send) { true }
 
-        job.error(job, Exception.new)
+        handler.perform
 
         message.delivery_attempts.should == 1
       end
     end
 
+    describe "#error" do
+    end
+
     describe "#failure" do
       it "should set message status to indicate failure" do
         message = OutgoingMessage.new
-        message.should_receive(:save!)
         job = SendSmsJob.new(message)
 
         job.failure(job)
@@ -46,10 +48,9 @@ module SmsBroker
     describe "#success" do
       it "should set message status to indicate success" do
         message = OutgoingMessage.new
-        message.should_receive(:save!)
         job = SendSmsJob.new(message)
 
-        job.success(job)
+        job.success(message)
 
         message.status.should == OutgoingMessage::SENT
       end
