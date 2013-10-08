@@ -66,7 +66,7 @@ Enable reception of SMSes by setting up sms_broker's routes. In your app, add th
 
     mount SmsBroker::Engine, at: "/sms_broker"
 
-This will create your endpoint at `http://<your-app>/sms_broker/receive`
+This will create your endpoint at `http://<your-app>/sms_broker/receive`. You will need to configure the PSWinCom gateway to use use HTTP to post incoming messages to this URL.
 
 
 ### Database setup
