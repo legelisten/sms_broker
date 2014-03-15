@@ -12,6 +12,11 @@ module SmsBroker
       end
     end
 
+    def text=(text)
+      text.encode!('utf-8') unless text.nil?
+      write_attribute(:text, text)
+    end
+
   private
 
     def fire_hooks
