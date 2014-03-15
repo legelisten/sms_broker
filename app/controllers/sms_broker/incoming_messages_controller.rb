@@ -20,8 +20,9 @@ module SmsBroker
   private
 
     def force_encoding(string)
-      if string && SmsBroker.config.incoming_text_encoding
-        return string.force_encoding(SmsBroker.config.incoming_text_encoding)
+      if string && SmsBroker.config.incoming_encoding
+        return string.force_encoding(SmsBroker.config.incoming_encoding)
+                     .encode(SmsBroker.config.app_encoding)
       else
         return string
       end

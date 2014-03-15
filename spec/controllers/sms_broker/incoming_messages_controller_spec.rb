@@ -55,9 +55,9 @@ module SmsBroker
 
         message = IncomingMessage.first
 
+        expect(message.text.encoding.to_s).to eq "UTF-8"
         expect(message.text.valid_encoding?).to be_true
       end
-
 
       context "whitelisting of IP addresses" do
         it "returns 401 when ip address not whitelisted" do
