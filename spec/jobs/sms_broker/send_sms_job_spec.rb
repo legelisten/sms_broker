@@ -13,7 +13,7 @@ module SmsBroker
 
       it "returns true if sending of SMS succeeds" do
         message = double(:message)
-        message.stub!(:increment)
+        message.stub(:increment)
         handler = SendSmsJob.new(message)
         SmsSender.any_instance.stub(:send) { true }
 
