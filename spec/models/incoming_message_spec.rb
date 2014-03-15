@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'spec_helper'
 
 module SmsBroker
@@ -17,14 +15,5 @@ module SmsBroker
         subject.run_callbacks(:create)
       end
     end
-
-    describe "#text=" do
-      it 'utf-8 encodes the text' do
-        subject.text = "æøå".encode('ISO-8859-1')
-
-        expect(subject.text.encoding.name).to eq "UTF-8"
-      end
-    end
-
   end
 end

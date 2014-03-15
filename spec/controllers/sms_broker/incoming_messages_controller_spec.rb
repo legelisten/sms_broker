@@ -24,10 +24,27 @@ module SmsBroker
       end
 
       it "stores the incoming message" do
-        post :receive, {:use_route => :sms_broker, "ID"=>"1", "SND"=>"12345678", "RCV"=>"26112", "TXT"=>"LEGELISTEN blablabla"}, nil
+        get :receive, {:use_route => :sms_broker, "ID"=>"1", "SND"=>"12345678", "RCV"=>"26112", "TXT"=>"LEGELISTEN blablabla"}, nil
 
         IncomingMessage.count.should == 1
       end
+
+      it 'saves all input in IncomingMessage' do
+        sender = "12345678"
+        recipient = "87654321"
+        text = "Test"
+
+        get :receive, {:SND => sender,
+                      :RCV => recipient,
+                      :TXT => text,
+                      :use_route => :sms_broker}
+
+        message = IncomingMessage.first
+        expect(message.sender).to eq sender
+        expect(message.recipient).to eq recipient
+        expect(message.text).to eq text
+      end
+
 
       context "whitelisting of IP addresses" do
         it "returns 401 when ip address not whitelisted" do

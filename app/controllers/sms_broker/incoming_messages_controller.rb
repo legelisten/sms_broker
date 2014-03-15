@@ -8,7 +8,7 @@ module SmsBroker
       message = IncomingMessage.new
       message.sender = params[:SND]
       message.recipient = params[:RCV]
-      message.text = params[:TXT]
+      message.text = force_encoding(params[:TXT])
 
       if message.save
         return head :ok
@@ -18,6 +18,14 @@ module SmsBroker
     end
 
   private
+
+    def force_encoding(string)
+      if string && SmsBroker.config.incoming_text_encoding
+        return string.force_encoding(SmsBroker.config.incoming_text_encoding)
+      else
+        return string
+      end
+    end
 
     def restrict_access
       whitelist = SmsBroker.config.reception_ip_whitelist

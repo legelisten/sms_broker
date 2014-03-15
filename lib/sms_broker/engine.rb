@@ -19,6 +19,7 @@ module SmsBroker
     end
   end
 
+  config.incoming_text_encoding = "ISO-8859-1"
   config.pswincom_user = ENV['SMS_SEND_USER'] || 'dummy'
   config.pswincom_password = ENV['SMS_SEND_PASSWORD'] || 'dummy'
   config.pswincom_reception_url = ENV['SMS_SEND_URL']
