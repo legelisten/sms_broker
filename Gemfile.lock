@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    sms_broker (0.1.11)
+    sms_broker (0.1.12)
       delayed_job (~> 3.0.3)
       pswincom (~> 0.1.8)
       rails (~> 3.2.0)
