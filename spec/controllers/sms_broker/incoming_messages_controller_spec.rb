@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 
 module SmsBroker
@@ -43,6 +45,17 @@ module SmsBroker
         expect(message.sender).to eq sender
         expect(message.recipient).to eq recipient
         expect(message.text).to eq text
+      end
+
+      it 'ensures correct encoding on incoming text' do
+        get :receive, {:TXT => "Test \xE6\xF8\xE5", # ISO-8859-1 characters (æøå)
+                       :SND => "1",
+                       :RCV => "2",
+                       :use_route => :sms_broker}
+
+        message = IncomingMessage.first
+
+        expect(message.text.valid_encoding?).to be_true
       end
 
 
