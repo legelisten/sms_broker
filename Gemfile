@@ -7,7 +7,7 @@ gemspec
 
 gem "jquery-rails"              # Used by the dummy application
 gem "pswincom", :git => "git://github.com/legelisten/pswincomgem.git"
-gem "delayed_job", '~> 3.0'
+gem "delayed_job", '~> 4'
 gem 'delayed_job_active_record'
 
 group :development, :test do
