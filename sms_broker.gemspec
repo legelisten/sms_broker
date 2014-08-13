@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
   #s.test_files = Dir["test/**/*"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 4.0.0"
-  s.add_dependency "delayed_job", "> 3.0.3"
+  s.add_dependency "rails", "~> 4"
+  s.add_dependency "delayed_job", "~> 4"
   s.add_dependency "pswincom", "~>0.1.8"
 
   s.add_development_dependency 'rspec-rails'
