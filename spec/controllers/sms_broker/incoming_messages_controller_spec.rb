@@ -4,6 +4,8 @@ require 'spec_helper'
 
 module SmsBroker
   describe IncomingMessagesController do
+    routes { SmsBroker::Engine.routes }
+
     describe "POST #receive" do
 
       before(:each) do
@@ -12,7 +14,7 @@ module SmsBroker
 
       it "returns 200 when IncomingMessage saved" do
         IncomingMessage.any_instance.stub(:save) { true }
-        get :receive, {:use_route => :sms_broker}
+        post :receive
 
         assert_response 200
       end
@@ -20,13 +22,19 @@ module SmsBroker
       it "returns 400 when saving IncomingMessage fails" do
         IncomingMessage.any_instance.stub(:save) { false }
 
-        get :receive, {:use_route => :sms_broker}
+        get :receive
 
         assert_response 400
       end
 
       it "stores the incoming message" do
-        get :receive, {:use_route => :sms_broker, "ID"=>"1", "SND"=>"12345678", "RCV"=>"26112", "TXT"=>"LEGELISTEN blablabla"}, nil
+        sender = "12345678"
+        recipient = "87654321"
+        text = "Test"
+
+        get :receive, {:SND => sender,
+                      :RCV => recipient,
+                      :TXT => text}
 
         IncomingMessage.count.should == 1
       end
@@ -38,8 +46,7 @@ module SmsBroker
 
         get :receive, {:SND => sender,
                       :RCV => recipient,
-                      :TXT => text,
-                      :use_route => :sms_broker}
+                      :TXT => text}
 
         message = IncomingMessage.first
         expect(message.sender).to eq sender
@@ -50,13 +57,12 @@ module SmsBroker
       it 'ensures correct encoding on incoming text' do
         get :receive, {:TXT => "Test \xE6\xF8\xE5", # ISO-8859-1 characters (æøå)
                        :SND => "1",
-                       :RCV => "2",
-                       :use_route => :sms_broker}
+                       :RCV => "2"}
 
         message = IncomingMessage.first
 
         expect(message.text.encoding.to_s).to eq "UTF-8"
-        expect(message.text.valid_encoding?).to be_true
+        expect(message.text.valid_encoding?).to eq true
       end
 
       context "whitelisting of IP addresses" do
@@ -64,7 +70,7 @@ module SmsBroker
           SmsBroker.config.reception_ip_whitelist = ['1.2.3.4']
           request.remote_addr = '4.3.2.1'
 
-          get :receive, {:use_route => :sms_broker}
+          get :receive
 
           assert_response 401
         end
@@ -73,7 +79,7 @@ module SmsBroker
           SmsBroker.config.reception_ip_whitelist = ['1.2.3.4']
           request.remote_addr = '1.2.3.4'
 
-          get :receive, {:use_route => :sms_broker}
+          get :receive
 
           response.status.should_not == 401
         end
@@ -82,7 +88,7 @@ module SmsBroker
           SmsBroker.config.reception_ip_whitelist = ['4.3.2.1', '1.2.3.4']
           request.remote_addr = '1.2.3.4'
 
-          get :receive, {:use_route => :sms_broker}
+          get :receive
 
           response.status.should_not == 401
         end
