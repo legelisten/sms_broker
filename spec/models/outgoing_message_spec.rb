@@ -38,6 +38,38 @@ module SmsBroker
       end
     end
 
+    describe "#recipient=" do
+      context "8 digit phone number" do
+        let(:phone) { "98765432" }
+
+        it 'adds norwegian country code as prefix' do
+          subject.recipient = phone
+
+          expect(subject.recipient).to eq "47#{phone}"
+        end
+      end
+
+      context "more than 8 digit phone number" do
+        let(:phone) { "987654321" }
+
+        it 'leaves phone number unmodified' do
+          subject.recipient = phone
+
+          expect(subject.recipient).to eq phone
+        end
+      end
+
+      context "already prefixed Norwgian phone number" do
+        let(:phone) { "4798765432" }
+
+        it 'leaves phone number unmodified' do
+          subject.recipient = phone
+
+          expect(subject.recipient).to eq phone
+        end
+      end
+    end
+
     describe ".build_from_incoming" do
       it "uses incoming message to set up new object" do
         incoming_message = build :incoming_message, id: 1
