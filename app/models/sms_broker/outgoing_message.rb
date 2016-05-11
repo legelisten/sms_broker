@@ -26,6 +26,22 @@ module SmsBroker
       self.delivery_attempts ||= 0
     end
 
+    ##
+    # Prepend 8 digit phone numbers with Norwegian country code.
+    #
+    # PSWinCom / LinkMobility expects phone numbers to be at least 9 digits,
+    # and thus Norwegian numbers should be prefixed with 47.
+    #
+    def recipient=(phone_number)
+      recipient = if phone_number =~ /\A(4|9)\d{7}\Z/
+                    '47' + phone_number
+                  else
+                    phone_number
+                  end
+
+      write_attribute(:recipient, recipient)
+    end
+
     def self.register_after_create_hook(hook)
       unless @@after_create_hooks.include?(hook)
         @@after_create_hooks << hook
