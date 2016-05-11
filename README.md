@@ -122,7 +122,7 @@ Please note that PSWinCom limits the sender name to 11 characters. See their tec
 
 ### Changing the program flow
 
-This gem basically does two things. It 1) offers an endpoint to which PSWinCom's SMS gateway kan post incoming messages, and 2) Handles the sending of outgoing messages to PSWinCom.
+This gem basically does two things. It 1) offers an endpoint to which PSWinCom's SMS gateway can post incoming messages, and 2) Handles the sending of outgoing messages to PSWinCom.
 
 When running some kind of SMS service you probably want to perform some action based on incoming SMSes. For this purpose you can register hooks that are fired by `IncomingMessage`'s `after_create` callback.
 
