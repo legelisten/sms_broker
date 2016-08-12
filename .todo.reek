@@ -1,0 +1,68 @@
+---
+exclude_paths:
+  - spec
+
+ControlParameter:
+  exclude:
+  - SmsBroker#self.config
+DuplicateMethodCall:
+  exclude:
+  - SmsBroker#self.config
+  - SmsBroker::IncomingMessagesController#force_encoding
+  - SmsBroker::OutgoingMessage#init
+  - SmsBroker::SmsSender#gateway_response_ok?
+  - SmsBroker::SmsSender#initialize
+  - SmsBroker::SmsSender#send
+IrresponsibleModule:
+  exclude:
+  - SmsBroker
+  - SmsBroker::ApplicationController
+  - SmsBroker::IncomingMessagesController
+  - SmsBroker::SendSmsJob
+  - SmsBroker::IncomingMessage
+  - SmsBroker::OutgoingMessage
+  - SmsBroker::SmsSender
+  - CreateSmsBrokerIncomingMessages
+  - CreateSmsBrokerOutgoingMessages
+  - CreateDelayedJobs
+  - ChangeSmsTextType
+  - ApplicationHelper
+UncommunicativeVariableName:
+  exclude:
+  - SmsBroker::Engine
+  - SmsBroker::SendSmsJob#perform
+  - CreateSmsBrokerIncomingMessages#change
+  - CreateSmsBrokerOutgoingMessages#change
+  - SmsBroker
+TooManyStatements:
+  exclude:
+  - initialize
+  - SmsBroker::IncomingMessagesController#receive
+  - SmsBroker::SmsSender#gateway_response_ok?
+  - SmsBroker::SmsSender#send
+  - CreateSmsBrokerOutgoingMessages#change
+  - CreateDelayedJobs#self.up
+UtilityFunction:
+  exclude:
+  - SmsBroker::IncomingMessagesController#force_encoding
+  - SmsBroker::SmsSender#gateway_response_ok?
+  - SmsBroker::SmsSender#http_response_ok?
+UnusedParameters:
+  exclude:
+  - SmsBroker::SendSmsJob#after
+  - SmsBroker::SendSmsJob#error
+  - SmsBroker::SendSmsJob#failure
+  - SmsBroker::SendSmsJob#success
+ClassVariable:
+  exclude:
+  - SmsBroker::IncomingMessage
+  - SmsBroker::OutgoingMessage
+FeatureEnvy:
+  exclude:
+  - SmsBroker::SmsSender#send
+  - CreateSmsBrokerIncomingMessages#change
+  - CreateSmsBrokerOutgoingMessages#change
+NilCheck:
+  exclude:
+  - SmsBroker::SmsSender#gateway_response_ok?
+  - SmsBroker::SmsSender#send
