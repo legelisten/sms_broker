@@ -7,6 +7,7 @@ require "sms_broker/version"
 Gem::Specification.new do |s|
   s.name        = "sms_broker"
   s.version     = SmsBroker::VERSION
+  s.required_ruby_version = '>= 2.2.5'
   s.authors     = ["Roger Kind Kristiansen"]
   s.email       = ["roger@legelisten.no"]
   s.homepage    = "http://www.legelisten.no"
