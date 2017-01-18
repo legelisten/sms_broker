@@ -17,6 +17,7 @@ module SmsBroker
 
     @@after_create_hooks = Array.new
 
+    # :reek:Manual-Dispatch
     def init
       if SmsBroker.config.respond_to? :default_sender
         self.sender ||= SmsBroker.config.default_sender
