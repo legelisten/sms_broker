@@ -8,7 +8,7 @@ module SmsBroker
 
       it 'should trigger the registered hooks' do
         hook = double(:hook)
-        hook.should_receive(:execute)
+        expect(hook).to receive(:execute)
 
         SmsBroker::OutgoingMessage.register_after_create_hook(hook)
 
@@ -18,23 +18,23 @@ module SmsBroker
 
     describe "after_initialize" do
       it "sets status to NEW" do
-        subject.status.should == OutgoingMessage::NEW
+        expect(subject.status).to eq OutgoingMessage::NEW
       end
 
       it "sets delivery_attempts to 0" do
-        subject.delivery_attempts.should == 0
+        expect(subject.delivery_attempts).to eq 0
       end
 
       it "does not set sender default value is not set" do
-        OutgoingMessage.new.sender.should == nil
+        expect(OutgoingMessage.new.sender).to eq nil
       end
 
       it "sets sender to configured default when default value is set" do
         SmsBroker.config do |c|
-          c.stub(:default_sender) { "TestSender" }
+          allow(c).to receive(:default_sender) { "TestSender" }
         end
 
-        OutgoingMessage.new.sender.should == "TestSender"
+        expect(OutgoingMessage.new.sender).to eq "TestSender"
       end
     end
 
@@ -76,8 +76,8 @@ module SmsBroker
 
         outgoing_message = OutgoingMessage.build_from_incoming(incoming_message)
 
-        outgoing_message.incoming_message.should == incoming_message
-        outgoing_message.recipient.should == incoming_message.sender
+        expect(outgoing_message.incoming_message).to eq incoming_message
+        expect(outgoing_message.recipient).to eq incoming_message.sender
       end
     end
   end

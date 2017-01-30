@@ -13,14 +13,14 @@ module SmsBroker
       end
 
       it "returns 200 when IncomingMessage saved" do
-        IncomingMessage.any_instance.stub(:save) { true }
+        allow_any_instance_of(IncomingMessage).to receive(:save) { true }
         post :receive
 
         assert_response 200
       end
 
       it "returns 400 when saving IncomingMessage fails" do
-        IncomingMessage.any_instance.stub(:save) { false }
+        allow_any_instance_of(IncomingMessage).to receive(:save) { false }
 
         get :receive
 
@@ -32,11 +32,11 @@ module SmsBroker
         recipient = "87654321"
         text = "Test"
 
-        get :receive, {:SND => sender,
-                      :RCV => recipient,
-                      :TXT => text}
+        get :receive, params: { SND: sender,
+                                RCV: recipient,
+                                TXT: text }
 
-        IncomingMessage.count.should == 1
+        expect(IncomingMessage.count).to eq 1
       end
 
       it 'saves all input in IncomingMessage' do
@@ -44,9 +44,9 @@ module SmsBroker
         recipient = "87654321"
         text = "Test"
 
-        get :receive, {:SND => sender,
-                      :RCV => recipient,
-                      :TXT => text}
+        get :receive, params: { SND: sender,
+                                RCV: recipient,
+                                TXT: text}
 
         message = IncomingMessage.first
         expect(message.sender).to eq sender
@@ -56,9 +56,9 @@ module SmsBroker
 
       it 'ensures correct encoding on incoming text' do
         pending('this test is broken')
-        get :receive, {:TXT => "Test \xE6\xF8\xE5", # ISO-8859-1 characters (æøå)
-                       :SND => "1",
-                       :RCV => "2"}
+        get :receive, params: { TXT: "Test \xE6\xF8\xE5", # ISO-8859-1 characters (æøå)
+                                SND: '1',
+                                RCV: '2' }
 
         message = IncomingMessage.first
 
@@ -82,7 +82,7 @@ module SmsBroker
 
           get :receive
 
-          response.status.should_not == 401
+          expect(response.status).to_not eq 401
         end
 
         it "handles multiple whitelisted addresses" do
@@ -91,7 +91,7 @@ module SmsBroker
 
           get :receive
 
-          response.status.should_not == 401
+          expect(response.status).to_not eq 401
         end
       end
     end

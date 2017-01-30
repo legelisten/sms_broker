@@ -6,28 +6,33 @@ module SmsBroker
     describe "#perform" do
       it "raises exception if sending of SMS fails" do
         job = SendSmsJob.new(nil)
-        SmsSender.any_instance.stub(:send) { raise }
+        # Raising any error here, but because of rspec warning (read below) need to specify type
+        # WARNING: Using the `raise_error` matcher without providing a specific error
+        # or message risks false positives, since `raise_error` will match when Ruby raises a
+        # `NoMethodError`, `NameError` or `ArgumentError`, potentially allowing
+        # the expectation to pass without even executing the method you are intending to call.
+        allow_any_instance_of(SmsSender).to receive(:send) { raise NoMethodError }
 
-        expect { job.perform }.to raise_error
+        expect { job.perform }.to raise_error NoMethodError
       end
 
       it "returns true if sending of SMS succeeds" do
         message = double(:message)
-        message.stub(:increment)
+        allow(message).to receive(:increment)
         handler = SendSmsJob.new(message)
-        SmsSender.any_instance.stub(:send) { true }
+        allow_any_instance_of(SmsSender).to receive(:send) { true }
 
-        handler.perform.should == true
+        expect(handler.perform).to eq true
       end
 
       it "should increase message's delivery attempts counter" do
         message = OutgoingMessage.new
         handler = SendSmsJob.new(message)
-        SmsSender.any_instance.stub(:send) { true }
+        allow_any_instance_of(SmsSender).to receive(:send) { true }
 
         handler.perform
 
-        message.delivery_attempts.should == 1
+        expect(message.delivery_attempts).to eq 1
       end
     end
 
@@ -41,7 +46,7 @@ module SmsBroker
 
         job.failure(job)
 
-        message.status.should == OutgoingMessage::FAILED
+        expect(message.status).to eq OutgoingMessage::FAILED
       end
     end
 
@@ -52,7 +57,7 @@ module SmsBroker
 
         job.success(message)
 
-        message.status.should == OutgoingMessage::SENT
+        expect(message.status).to eq OutgoingMessage::SENT
       end
     end
   end
