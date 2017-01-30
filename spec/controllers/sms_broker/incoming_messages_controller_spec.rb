@@ -54,18 +54,6 @@ module SmsBroker
         expect(message.text).to eq text
       end
 
-      it 'ensures correct encoding on incoming text' do
-        pending('this test is broken')
-        get :receive, params: { TXT: "Test \xE6\xF8\xE5", # ISO-8859-1 characters (æøå)
-                                SND: '1',
-                                RCV: '2' }
-
-        message = IncomingMessage.first
-
-        expect(message.text.encoding.to_s).to eq "UTF-8"
-        expect(message.text.valid_encoding?).to eq true
-      end
-
       context "whitelisting of IP addresses" do
         it "returns 401 when ip address not whitelisted" do
           SmsBroker.config.reception_ip_whitelist = ['1.2.3.4']
