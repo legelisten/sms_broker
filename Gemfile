@@ -6,7 +6,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "jquery-rails"              # Used by the dummy application
-gem "pswincom", :git => "git://github.com/legelisten/pswincomgem.git"
+gem "pswincom", git: "https://github.com/legelisten/pswincomgem.git"
 gem "delayed_job", '~> 4'
 gem 'delayed_job_active_record'
 
