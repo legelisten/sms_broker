@@ -11,7 +11,7 @@ module SmsBroker
         VCR.use_cassette('pswincom/valid_sms', :match_requests_on => [:method]) do
           result = SmsSender.new.send(message)
 
-          result.should == true
+          expect(result).to eq true
         end
       end
 
@@ -51,7 +51,7 @@ module SmsBroker
         message.sender = "Legelisten"
         message.text = "Test"
 
-        PSWinCom::API.any_instance.should_receive(:send_sms) { raise }
+        expect_any_instance_of(PSWinCom::API).to receive(:send_sms) { raise }
 
         VCR.use_cassette('pswincom/invalid_host') do
           expect { SmsSender.new.send(message) }.to raise_error RuntimeError

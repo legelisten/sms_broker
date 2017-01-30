@@ -8,7 +8,7 @@ module SmsBroker
 
       it 'should trigger the registered hooks' do
         hook = double(:hook)
-        hook.should_receive(:execute)
+        expect(hook).to receive(:execute)
 
         SmsBroker::IncomingMessage.register_after_create_hook(hook)
 
