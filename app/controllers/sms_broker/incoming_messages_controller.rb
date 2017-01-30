@@ -2,7 +2,7 @@ require_dependency "sms_broker/application_controller"
 
 module SmsBroker
   class IncomingMessagesController < ApplicationController
-    before_filter :restrict_access
+    before_action :restrict_access
 
     def receive
       message = IncomingMessage.new
