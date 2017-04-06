@@ -19,6 +19,7 @@ group :development, :test do
   gem 'guard-spork',        require: false
   gem 'guard-rspec',        require: false
   gem 'guard-bundler',      require: false
+  gem 'coveralls',          require: false
 end
 
 group :test do

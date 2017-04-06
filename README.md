@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/legelisten/sms_broker/badge.svg?branch=master)](https://coveralls.io/github/legelisten/sms_broker?branch=master)
+
 sms_broker
 ==========
 
