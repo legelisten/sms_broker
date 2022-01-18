@@ -1,5 +1,3 @@
-require_dependency "sms_broker/application_controller"
-
 module SmsBroker
   class IncomingMessagesController < ApplicationController
     before_action :restrict_access

@@ -1,6 +1,6 @@
 module SmsBroker
   class OutgoingMessage < ActiveRecord::Base
-    belongs_to :incoming_message
+    belongs_to :incoming_message, optional: true
 
     validates :recipient, :sender, :text, presence: true
 
