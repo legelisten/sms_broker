@@ -1,5 +1,6 @@
 module SmsBroker
   class IncomingMessagesController < ApplicationController
+    skip_forgery_protection
     before_action :restrict_access
 
     def receive
