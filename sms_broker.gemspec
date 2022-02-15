@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency 'rubocop', "= 0.41"
+  s.add_development_dependency 'rubocop', "= 0.49"
   s.add_development_dependency 'reek', "~> 4.1"
 end
